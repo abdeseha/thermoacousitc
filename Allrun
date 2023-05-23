@@ -1,0 +1,32 @@
+#!/bin/sh
+
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
+
+ blockMesh
+
+ topoSet
+
+ splitMeshRegions -cellZones -overwrite
+
+ for i in $(foamListRegions)
+ do
+    changeDictionary -region $i
+ done
+
+    setExprFields -region Stack
+
+date > start_time
+$(getApplication)
+date > end_time
+
+tail -100 log >> mail.txt
+
+ssmtp -v sehanineabdellah@gmail.com < mail.txt
+ssmtp -v hadbna2@gmail.com < mail.txt
+
+
+#--------------------------------------------------------------------------
+

@@ -1,0 +1,133 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    // cold exchanger  ColdEx
+    {
+        name    ColdEx;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        sourceInfo
+        {
+            box (0.7108 0.0004 0)(0.7158 0.0006 0.00001);
+        }
+    }
+    {
+        name    ColdEx;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set ColdEx;           // name of cellSet
+        }
+    }
+
+    // Stack
+    {
+        name    Stack;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        sourceInfo
+        {
+            box (0.716 0.0004 0)(0.786 0.0006 0.00001);
+        }
+    }
+    {
+        name    Stack;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set Stack;
+        }
+    }
+
+    // Hot exchanger hotex
+    {
+        name    HotEx;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        sourceInfo
+        {
+            box (0.7862 0.0004 0)(0.7962 0.0006 0.00001);
+        }
+    }
+    {
+        name    HotEx;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set HotEx;
+        }
+    }
+
+    // fluid is all the other cells
+    {
+        name    Fluidset;
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        sourceInfo
+        {
+            set ColdEx;
+        }
+    }
+    {
+        name    Fluidset;
+        type    cellSet;
+        action  add;
+        source  cellToCell;
+        sourceInfo
+        {
+            set Stack;
+        }
+    }
+    {
+        name    Fluidset;
+        type    cellSet;
+        action  add;
+        source  cellToCell;
+        sourceInfo
+        {
+            set HotEx;
+        }
+    }
+    {
+        name    Fluidset;
+        type    cellSet;
+        action  invert;
+    }
+    {
+        name    Fluid;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set Fluidset;
+        }
+    }
+);
+
+// ************************************************************************* //

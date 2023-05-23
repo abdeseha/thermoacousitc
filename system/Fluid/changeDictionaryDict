@@ -1,0 +1,220 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+    U
+    {
+        internalField   uniform (0 0 0);
+
+        boundaryField
+        {
+
+	    source
+	    {
+     		type         	zeroGradient;
+	    }
+
+	    end
+            {
+		type 		fixedValue;
+		value		uniform (0 0 0);
+            }
+
+            periodicT
+            {
+                type            cyclic;
+            }
+
+            periodicB
+            {
+                type            cyclic;
+            }
+
+    	    frontend
+	    {
+	        type           	empty;
+            }
+
+    	    backend
+	    {
+	    	type            empty;
+            }
+
+           "Fluid_to_.*"
+            {
+        	type            fixedValue;
+                value           uniform (0 0 0);
+
+            }
+
+        }
+    }
+
+    T
+    {
+
+        internalField   uniform 300;
+
+	boundaryField
+	{
+    	    source
+	    {
+	      	type	        zeroGradient;
+	      //	value	$internalField;
+    	    }
+
+    	    end
+           {
+               type		zeroGradient;
+           }
+
+           periodicB
+           {
+              type	cyclic;
+           }
+           periodicT
+           {
+              type      cyclic;
+           }
+
+           frontend
+           {
+   	      type	empty;
+           }
+
+    	   backend
+           {
+              type	empty;
+    	   }
+
+           "Fluid_to_.*"
+           {
+                type            compressible::turbulentTemperatureRadCoupledMixed;
+                Tnbr            T;
+                kappaMethod     fluidThermo;
+                value           uniform 300;
+           }
+        }
+    }
+
+
+    p
+    {
+        internalField   uniform 100000;
+
+        boundaryField
+        {
+
+	  source
+	   {
+      		 type uniformFixedValue;
+                 uniformValue sine;
+                        uniformValueCoeffs
+                        {
+                                frequency 200;
+                                amplitude 1e4; // 5*10e3 10e4 15e3
+				scale	  1;
+                                level     1e5; // offset
+                                t0  1; // shift this for a Cosinus
+                        }
+  	   }
+
+	  end
+    	  {
+             type	zeroGradient;
+    	  }
+
+          periodicB
+          {
+             type	cyclic;
+          }
+
+          periodicT
+          {
+             type	cyclic;
+          }
+
+          frontend
+	  {
+	     type	empty;
+          }
+
+    	  backend
+	  {
+	     type	empty;
+          }
+
+          "Fluid_to.*"
+          {
+             type	zeroGradient;
+          }
+        }
+    }
+
+
+    p_rgh
+    {
+        internalField   uniform 100000;
+
+        boundaryField
+        {
+
+	   source
+           {
+                 type uniformFixedValue;
+		 uniformValue sine;
+		        uniformValueCoeffs
+        		{
+           		 	frequency 200;
+            			amplitude 1e4;
+				scale     1;
+            			level     1e5; // offset
+            			t0  1; // shift this for a Cosinus
+        		}
+           }
+
+
+	  end
+    	  {
+             type	zeroGradient;
+    	  }
+
+          periodicB
+          {
+             type	cyclic;
+          }
+
+          periodicT
+          {
+             type	cyclic;
+          }
+
+          frontend
+	  {
+	     type	empty;
+          }
+
+    	  backend
+	  {
+	     type	empty;
+          }
+
+          "Fluid_to.*"
+          {
+             type	zeroGradient;
+          }
+        }
+    }
+
+// ************************************************************************* //

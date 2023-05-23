@@ -1,0 +1,35 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+/*PISO
+{
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 0;
+}*/
+
+
+PIMPLE
+{
+    momentumPredictor   on;
+    nCorrectors         1;
+    nNonOrthogonalCorrectors 0;
+    nOuterCorrectors 3;
+
+}
+
+
+
+//***************************************************************** //

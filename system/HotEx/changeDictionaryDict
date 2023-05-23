@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+   	    frontend
+    	    {
+        	type	empty;
+    	    }
+
+            backend
+            {
+        	type	empty;
+           }
+
+          "HotEx_to_.*"
+            {
+                type            compressible::turbulentTemperatureRadCoupledMixed;
+                Tnbr            T;
+                kappaMethod     solidThermo;
+                value           uniform 300;
+            }
+        }
+    }
+
+    p
+    {
+	internalField   uniform 100000;
+
+	boundaryField
+	{
+    	    frontend
+    	    {
+        	type	empty;
+    	    }
+
+    	    backend
+            {
+               type	empty;
+            }
+
+    	    HotEx_to_Fluid
+    	    {
+               type            zeroGradient;
+            }
+      	}
+    }
+
+// ************************************************************************* //
