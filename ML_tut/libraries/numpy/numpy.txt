@@ -1,0 +1,17 @@
+np1 = numpy.array()       #just a normal list
+
+np1.shape                  #like length function
+
+np1 = np.arange(start, end, step) #creating a list from start to end with step of 'step'
+
+np1 = np.zeros((2,10))          # list of 2 dimensions each with 10 zeros
+
+np1 = np.full((2,10), 6)        # list of 2 dimensions each with 10 sixes
+
+np1 = np.array(list)            # convert a normal list to numpy list
+
+np2 = np.arra([1,2,3 ...],[4,5,6 ..])   #2D array
+
+np2[1,2]            #fist number is the dimension, the second is the element
+
+np2[0:1, 1:3]       #from the 0th dimention to the 1th not including, form the 1th element to the 3th not including    
